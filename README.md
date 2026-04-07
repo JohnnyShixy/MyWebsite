@@ -25,3 +25,12 @@
 - GitHub Pages: 适合个人主页和公开项目展示。
 - Netlify: 适合拖拽部署和自动部署。
 - Vercel: 适合后续升级为 React / Next.js 项目。
+
+## 静态 TMO Demo
+
+静态 TMO Demo 位于 `demos/tmo-static/`。它适合部署到 GitHub Pages：
+
+- 先在本地生成每张 HDR 图像对应的 TMO 结果图，例如 `preview.png`、`reinhard.png`、`drago.png`。
+- 将结果图放到 `demos/tmo-static/assets/<scene-name>/`。
+- 在 `demos/tmo-static/script.js` 中更新场景名和图片路径。
+- 主页的 Demo 链接已经指向 `demos/tmo-static/`。

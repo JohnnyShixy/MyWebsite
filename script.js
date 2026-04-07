@@ -30,14 +30,14 @@ const projects = [
 
 const demos = [
   {
-    title: "Demo A: 图像对比",
-    description: "放置一个可运行的图像对比 Demo，适合展示算法效果。",
-    tags: ["Before / After", "Interactive"],
-    links: [{ label: "打开 Demo", url: "#" }],
+    title: "TMO 静态对比 Demo",
+    description: "选择不同 HDR 场景和 TMO 算法，展示预先生成好的 tone mapping 结果。",
+    tags: ["TMO", "HDR", "GitHub Pages"],
+    links: [{ label: "打开 Demo", url: "demos/tmo-static/" }],
   },
   {
-    title: "Demo B: 实验结果看板",
-    description: "放置统计图、热力图、排序结果或实验摘要。",
+    title: "实验结果看板",
+    description: "后续可以放统计图、热力图、排序结果或实验摘要。",
     tags: ["Dashboard", "Results"],
     links: [{ label: "查看看板", url: "#" }],
   },

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Static TMO Demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <a class="back-link" href="../../index.html">Back to portfolio</a>
+      <p class="eyebrow">Static Tone Mapping Demo</p>
+      <h1>Compare tone mapping results across HDR scenes.</h1>
+      <p>
+        This GitHub Pages demo switches between precomputed image results.
+        Replace the placeholder paths in <code>script.js</code> with your real
+        PNG/JPG outputs after generating each TMO result locally.
+      </p>
+    </header>
+
+    <section class="controls" aria-label="TMO demo controls">
+      <label>
+        Scene
+        <select id="scene-select"></select>
+      </label>
+      <label>
+        Algorithm
+        <select id="algorithm-select"></select>
+      </label>
+    </section>
+
+    <section class="viewer" aria-live="polite">
+      <article class="image-card">
+        <div>
+          <p class="eyebrow">Reference Preview</p>
+          <h2 id="reference-title">Scene preview</h2>
+        </div>
+        <img id="reference-image" alt="Reference preview">
+      </article>
+
+      <article class="image-card featured">
+        <div>
+          <p class="eyebrow">Tone Mapped Result</p>
+          <h2 id="result-title">TMO result</h2>
+        </div>
+        <img id="result-image" alt="Selected tone mapping result">
+      </article>
+    </section>
+
+    <section class="notes">
+      <h2>How to replace placeholders</h2>
+      <p>
+        Put your generated results under <code>demos/tmo-static/assets/</code>,
+        then update the paths in <code>demos/tmo-static/script.js</code>.
+      </p>
+      <pre><code>assets/memorial/preview.png
+assets/memorial/reinhard.png
+assets/memorial/drago.png
+assets/memorial/fattal.png</code></pre>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
