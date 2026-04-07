@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="个人项目、Demo 与实验链接展示网站">
+  <title>我的项目与实验</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero">
+    <nav class="nav" aria-label="主导航">
+      <a class="logo" href="#top">Your Name</a>
+      <div class="nav-links">
+        <a href="#projects">项目</a>
+        <a href="#demos">Demo</a>
+        <a href="#experiments">实验</a>
+        <a href="#contact">联系</a>
+      </div>
+    </nav>
+
+    <section id="top" class="hero-content">
+      <p class="eyebrow">Portfolio / Research / Experiments</p>
+      <h1>你好，我是 <span>Your Name</span>，这里展示我的项目、Demo 和实验链接。</h1>
+      <p class="hero-copy">
+        这个网站适合放研究项目、交互式 Demo、论文补充材料、实验页面或临时测试入口。
+        你可以把链接替换成自己的 GitHub、在线 Demo、实验系统地址或视频展示。
+      </p>
+      <div class="actions">
+        <a class="button primary" href="#projects">查看项目</a>
+        <a class="button secondary" href="#experiments">实验入口</a>
+      </div>
+    </section>
+  </header>
+
+  <main>
+    <section id="projects" class="section">
+      <div class="section-heading">
+        <p class="eyebrow">Projects</p>
+        <h2>项目展示</h2>
+        <p>用卡片展示项目目标、技术栈和相关链接。</p>
+      </div>
+      <div id="project-list" class="card-grid"></div>
+    </section>
+
+    <section id="demos" class="section muted">
+      <div class="section-heading">
+        <p class="eyebrow">Demos</p>
+        <h2>Demo 展示</h2>
+        <p>适合放可运行页面、视频、交互式原型或下载链接。</p>
+      </div>
+      <div id="demo-list" class="card-grid compact"></div>
+    </section>
+
+    <section id="experiments" class="section">
+      <div class="section-heading">
+        <p class="eyebrow">Experiments</p>
+        <h2>实验链接</h2>
+        <p>可以把实验分成正式实验、预实验、问卷、内部测试等类型。</p>
+      </div>
+      <div id="experiment-list" class="link-list"></div>
+    </section>
+
+    <section id="contact" class="section contact">
+      <div>
+        <p class="eyebrow">Contact</p>
+        <h2>保持联系</h2>
+        <p>如果你对我的项目感兴趣，欢迎通过邮件或 GitHub 联系我。</p>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:your.email@example.com">your.email@example.com</a>
+        <a href="https://github.com/yourname" target="_blank" rel="noreferrer">GitHub</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> Your Name. Built as a lightweight personal website.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

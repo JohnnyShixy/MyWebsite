@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TMO Demo - Reinhard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <p class="eyebrow">Tone Mapping Operator Demo</p>
+      <h1>Upload an HDR image and view the Reinhard TMO result.</h1>
+      <p>
+        This is a minimal backend framework for your TMO demo. It currently
+        reads an uploaded image, runs a global Reinhard tone mapping operator,
+        and returns PNG previews for the browser.
+      </p>
+    </section>
+
+    <section class="panel">
+      <form action="/" method="post" enctype="multipart/form-data" class="upload-form">
+        <label>
+          HDR image
+          <input type="file" name="hdr_file" accept=".hdr,.exr,.png,.jpg,.jpeg,.tif,.tiff" required>
+        </label>
+
+        <div class="form-grid">
+          <label>
+            Reinhard key
+            <input type="number" name="key" min="0.01" max="2" step="0.01" value="{{ result.key if result else 0.18 }}">
+          </label>
+          <label>
+            Gamma
+            <input type="number" name="gamma" min="1" max="4" step="0.1" value="{{ result.gamma if result else 2.2 }}">
+          </label>
+        </div>
+
+        <button type="submit">Run TMO</button>
+      </form>
+
+      {% if error %}
+        <div class="error">{{ error }}</div>
+      {% endif %}
+    </section>
+
+    {% if result %}
+      <section class="results">
+        <div class="section-heading">
+          <p class="eyebrow">Result</p>
+          <h2>{{ result.filename }}</h2>
+          <p>Parameters: key = {{ result.key }}, gamma = {{ result.gamma }}</p>
+        </div>
+
+        <div class="result-grid">
+          <article class="result-card">
+            <h3>Preview</h3>
+            <img src="{{ result.preview_url }}" alt="Simple preview">
+          </article>
+          <article class="result-card">
+            <h3>Reinhard Global TMO</h3>
+            <img src="{{ result.reinhard_url }}" alt="Reinhard tone mapped result">
+          </article>
+        </div>
+      </section>
+    {% endif %}
+  </main>
+</body>
+</html>
