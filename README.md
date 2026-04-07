@@ -34,3 +34,5 @@
 - 将结果图放到 `demos/tmo-static/assets/<scene-name>/`。
 - 在 `demos/tmo-static/script.js` 中更新场景名和图片路径。
 - 主页的 Demo 链接已经指向 `demos/tmo-static/`。
+
+动态后端版本已单独移到 `D:\CEL-Johnny\research\TMO-Demo-Backend\tmo-demo`，以后可以作为独立仓库部署到 Render。
