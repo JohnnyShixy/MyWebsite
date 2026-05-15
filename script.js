@@ -74,7 +74,7 @@ const demos = [
     description:
       "展示 HDR 内容在目标显示条件下的渲染效果，关注亮度层次、高光保留、显示峰值与视觉一致性。",
     tags: ["HDR Display", "Rendering", "Preview"],
-    links: [{ label: "占位入口", url: "#" }],
+    links: [{ label: "打开 Demo", url: "demos/hdr-iqa-rendering-demo/" }],
   },
   {
     title: "HDR到SDR的TMO对比",
