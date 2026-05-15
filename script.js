@@ -1,66 +1,122 @@
 const projects = [
   {
-    title: "HDR Tone Mapping 研究",
-    description: "展示研究背景、算法对比、主观实验结果，以及可复现实验材料。",
-    tags: ["Research", "HDR", "Visualization"],
+    title: "颜色管理流程",
+    meta: "系统框架",
+    description:
+      "梳理从输入图像、工作色彩空间、白点适配、编码转换到目标显示的完整链路，作为后续 TMO、Gamut Mapping 和 HDR 显示适配的共同底座。",
+    tags: ["Color Pipeline", "ICC / OCIO", "White Point"],
     links: [
       { label: "项目说明", url: "#" },
-      { label: "代码仓库", url: "https://github.com/yourname/project" },
+      { label: "流程图", url: "#" },
     ],
   },
   {
-    title: "交互式数据可视化",
-    description: "用于呈现实验数据、统计结果和可交互图表的网页 Demo。",
-    tags: ["D3.js", "Experiment", "Demo"],
+    title: "色调映射 Tonemapping",
+    meta: "核心算法",
+    description:
+      "研究如何把 HDR 场景亮度压缩到目标显示范围，同时尽量保留局部对比度、明暗层次和自然观感。适合放 Reinhard、Drago、Mantiuk、Fattal 等方法对比。",
+    tags: ["HDR", "Tone Mapping", "Perception"],
     links: [
-      { label: "在线 Demo", url: "#" },
-      { label: "数据说明", url: "#" },
+      { label: "算法记录", url: "#" },
+      { label: "打开 Demo", url: "demos/tmo-static/" },
     ],
   },
   {
-    title: "图像质量评估工具",
-    description: "收集用户偏好、展示图像对比，并导出实验结果的工具页面。",
-    tags: ["Web App", "Image", "User Study"],
+    title: "色域映射 Gamut Mapping",
+    meta: "颜色适配",
+    description:
+      "处理源色域到目标色域时的越界颜色，比较裁剪、压缩、感知保持等策略，重点观察高饱和颜色的色相偏移和细节损失。",
+    tags: ["Gamut", "Display P3", "BT.2020"],
     links: [
-      { label: "工具入口", url: "#" },
-      { label: "文档", url: "#" },
+      { label: "研究笔记", url: "#" },
+      { label: "结果对比", url: "#" },
+    ],
+  },
+  {
+    title: "HDR 源到 HDR 显示",
+    meta: "显示链路",
+    description:
+      "面向 HDR 显示设备保留高亮细节和亮度层次，关注 PQ / HLG、峰值亮度、元数据、显示能力与视觉一致性之间的关系。",
+    tags: ["PQ / HLG", "HDR Display", "Metadata"],
+    links: [
+      { label: "流程说明", url: "#" },
+      { label: "测试材料", url: "#" },
+    ],
+  },
+  {
+    title: "HDR 源到 SDR 显示",
+    meta: "兼容输出",
+    description:
+      "把 HDR 内容转换到普通 SDR 屏幕可稳定观看的版本，结合色调映射、色域映射和亮度重分配，适合展示网页端预览结果。",
+    tags: ["HDR to SDR", "Rec.709", "Web Preview"],
+    links: [
+      { label: "转换流程", url: "#" },
+      { label: "样例结果", url: "#" },
+    ],
+  },
+  {
+    title: "色适应 CAT16",
+    meta: "感知模型",
+    description:
+      "用 CAT16 描述不同观察条件和白点之间的颜色外观变化，作为颜色管理流程中连接设备无关颜色与观看环境的重要模块。",
+    tags: ["CAT16", "Color Appearance", "Adaptation"],
+    links: [
+      { label: "模型说明", url: "#" },
+      { label: "计算示例", url: "#" },
     ],
   },
 ];
 
 const demos = [
   {
-    title: "TMO 静态对比 Demo",
-    description: "选择不同 HDR 场景和 TMO 算法，展示预先生成好的 tone mapping 结果。",
-    tags: ["TMO", "HDR", "GitHub Pages"],
+    title: "HDR显示及渲染",
+    meta: "可打开",
+    description:
+      "展示 HDR 内容在目标显示条件下的渲染效果，关注亮度层次、高光保留、显示峰值与视觉一致性。",
+    tags: ["HDR Display", "Rendering", "Preview"],
+    links: [{ label: "占位入口", url: "#" }],
+  },
+  {
+    title: "HDR到SDR的TMO对比",
+    meta: "可交互",
+    description:
+      "比较同一 HDR 源图经过不同 tone mapping 方法转换到 SDR 后的结果，支持单算法查看、双算法并排、同步放大和 EXR 数据视图占位。",
+    tags: ["HDR to SDR", "TMO", "Interactive Compare"],
     links: [{ label: "打开 Demo", url: "demos/tmo-static/" }],
   },
   {
-    title: "实验结果看板",
-    description: "后续可以放统计图、热力图、排序结果或实验摘要。",
-    tags: ["Dashboard", "Results"],
-    links: [{ label: "查看看板", url: "#" }],
+    title: "色域映射可视化",
+    meta: "规划中",
+    description:
+      "展示源色域与目标色域边界，配合图像结果或色点分布图，观察越界颜色如何被压缩或裁剪。",
+    tags: ["Gamut", "Chromaticity", "Visualizer"],
+    links: [{ label: "占位入口", url: "#" }],
+  },
+  {
+    title: "CAT16色适应工具",
+    meta: "规划中",
+    description:
+      "输入源白点、目标白点和观察环境，显示 CAT16 适应前后的颜色变化，适合做成轻量交互工具。",
+    tags: ["CAT16", "White Point", "Interactive"],
+    links: [{ label: "占位入口", url: "#" }],
   },
 ];
 
-const experiments = [
+const roadmap = [
   {
-    title: "正式实验入口",
-    description: "面向被试的正式实验页面，可以替换为 Flask、问卷或外部系统链接。",
-    status: "Active",
-    url: "#",
+    title: "显示流程整理",
+    description:
+      "整理 HDR Source -> Color Management -> Mapping -> Display Target 的主线流程，明确各个模块之间的输入输出关系。",
   },
   {
-    title: "预实验 / Pilot Study",
-    description: "用于小范围测试流程、指导语和数据记录是否正常。",
-    status: "Testing",
-    url: "#",
+    title: "核心算法对比",
+    description:
+      "补充 Tonemapping、Gamut Mapping、CAT16 等方向的算法说明、参数设置和图像对比结果。",
   },
   {
-    title: "内部测试链接",
-    description: "给合作者或自己快速访问开发中的实验版本。",
-    status: "Internal",
-    url: "#",
+    title: "交互 Demo 扩展",
+    description:
+      "逐步完善 HDR显示及渲染、HDR到SDR的TMO对比、色域映射可视化和 CAT16色适应工具。",
   },
 ];
 
@@ -70,6 +126,7 @@ function createCard(item) {
 
   const content = document.createElement("div");
   content.innerHTML = `
+    <span class="card-meta">${item.meta}</span>
     <h3>${item.title}</h3>
     <p>${item.description}</p>
     <div class="tags">${item.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}</div>
@@ -85,21 +142,20 @@ function createCard(item) {
   return card;
 }
 
-function createExperimentLink(item) {
+function createRoadmapItem(item, index) {
   const row = document.createElement("article");
-  row.className = "experiment-link";
+  row.className = "roadmap-item";
   row.innerHTML = `
+    <span>${String(index + 1).padStart(2, "0")}</span>
     <div>
-      <span class="badge">${item.status}</span>
       <h3>${item.title}</h3>
       <p>${item.description}</p>
     </div>
-    <a href="${item.url}" target="_blank" rel="noreferrer">进入实验</a>
   `;
   return row;
 }
 
 document.querySelector("#project-list").append(...projects.map(createCard));
 document.querySelector("#demo-list").append(...demos.map(createCard));
-document.querySelector("#experiment-list").append(...experiments.map(createExperimentLink));
+document.querySelector("#roadmap-list").append(...roadmap.map(createRoadmapItem));
 document.querySelector("#year").textContent = new Date().getFullYear();

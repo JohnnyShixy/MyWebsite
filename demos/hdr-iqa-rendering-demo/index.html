@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HDR IQA Rendering Demo</title>
+    <link rel="stylesheet" href="style.css?v=ui-structure-1">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <h1>HDR IQA Rendering Demo</h1>
+        <p id="targetSummary">PQ / P3-D65 / 1000 nit</p>
+      </div>
+      <div class="status" id="hdrStatus">Checking HDR support...</div>
+    </header>
+
+    <main>
+      <section class="workspaceBar">
+        <div class="modeTabs" aria-label="Experiment type">
+          <button class="modeTab active" type="button" data-mode="source">Source</button>
+          <button class="modeTab" type="button" data-mode="tmo">TMO</button>
+          <button class="modeTab" type="button" data-mode="distortion">Distortion</button>
+          <button class="modeTab" type="button" data-mode="rendering">Rendering</button>
+        </div>
+
+        <section class="controls">
+          <label>
+            Scene
+            <select id="sceneSelect"></select>
+          </label>
+          <label id="leftControl">
+            <span id="leftControlLabel">Left</span>
+            <select id="leftSelect"></select>
+          </label>
+          <label id="rightControl">
+            <span id="rightControlLabel">Right</span>
+            <select id="rightSelect"></select>
+          </label>
+          <label id="mediaControl">
+            <span>Media</span>
+            <select id="mediaSelect">
+              <option value="both">Video + Image</option>
+              <option value="video">Video</option>
+              <option value="image">Image</option>
+            </select>
+          </label>
+          <div class="buttonRow">
+            <button id="playPause" type="button">Play Both</button>
+            <button id="sync" type="button">Sync Time</button>
+            <button id="reset" type="button">Reset Time</button>
+          </div>
+        </section>
+      </section>
+
+      <div class="emptyState" id="emptyState"></div>
+
+      <section class="sourceView" id="sourceView" aria-label="Source view">
+        <article class="panel">
+          <div class="panelHeader">
+            <h2 id="sourceViewTitle">Preview</h2>
+            <span>SDR source aid</span>
+          </div>
+          <img id="sourceViewImage" alt="Source view image">
+          <div class="missing" id="sourceViewMissing"></div>
+        </article>
+        <article class="panel">
+          <div class="panelHeader">
+            <h2>Raw EXR Histogram</h2>
+            <span id="histogramMeta">log2(mean RGB)</span>
+          </div>
+          <canvas id="histogramCanvas" width="900" height="360" aria-label="Raw EXR histogram"></canvas>
+        </article>
+      </section>
+
+      <section class="distortionGrid" id="distortionGrid" aria-label="Distortion level comparison" hidden></section>
+
+      <section class="comparison" aria-label="HDR video comparison">
+        <article class="panel">
+          <div class="panelHeader">
+            <h2 id="leftTitle">Left</h2>
+            <span id="leftMeta"></span>
+          </div>
+          <video id="leftVideo" controls playsinline preload="metadata"></video>
+          <div class="missing" id="leftMissing"></div>
+        </article>
+        <article class="panel">
+          <div class="panelHeader">
+            <h2 id="rightTitle">Right</h2>
+            <span id="rightMeta"></span>
+          </div>
+          <video id="rightVideo" controls playsinline preload="metadata"></video>
+          <div class="missing" id="rightMissing"></div>
+        </article>
+      </section>
+
+      <section class="comparison imageComparison" aria-label="HDR image comparison">
+        <article class="panel">
+          <div class="panelHeader">
+            <h2 id="leftImageTitle">Left</h2>
+            <span id="leftImageMeta">AVIF / PQ / BT.2020</span>
+          </div>
+          <img id="leftImage" alt="Left HDR still image">
+          <div class="missing" id="leftImageMissing"></div>
+        </article>
+        <article class="panel">
+          <div class="panelHeader">
+            <h2 id="rightImageTitle">Right</h2>
+            <span id="rightImageMeta">AVIF / PQ / BT.2020</span>
+          </div>
+          <img id="rightImage" alt="Right HDR still image">
+          <div class="missing" id="rightImageMissing"></div>
+        </article>
+      </section>
+
+    </main>
+
+    <script src="app.js?v=ui-structure-1"></script>
+  </body>
+</html>

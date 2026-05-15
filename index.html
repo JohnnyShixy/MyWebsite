@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="个人项目、Demo 与实验链接展示网站">
-  <title>Shayne's website</title>
+  <meta name="description" content="Shayne Shi 的 HDR、色彩管理与图像显示研究作品集。">
+  <title>Shayne Shi | HDR & Color Imaging</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -12,59 +12,105 @@
     <nav class="nav" aria-label="主导航">
       <a class="logo" href="#top">Shayne Shi</a>
       <div class="nav-links">
+        <a href="#overview">方向</a>
         <a href="#projects">项目</a>
         <a href="#demos">Demo</a>
-        <a href="#experiments">实验</a>
+        <a href="#roadmap">规划</a>
         <a href="#contact">联系</a>
       </div>
     </nav>
 
     <section id="top" class="hero-content">
-      <p class="eyebrow">Portfolio / Research / Experiments</p>
-      <h1>Hi，我是 <span>Shayne Shi</span>，这里记录我的项目、作品和学习过程。</h1>
+      <p class="eyebrow">Color Science / HDR Imaging / Display Pipeline</p>
+      <h1>Hi，我是 <span>Shayne Shi</span><br>这里记录我的项目、作品和学习过程。</h1>
       <p class="hero-copy">
-        我专注于颜色科学、影像 ISP 与 HDR 图像处理，关注如何通过算法与系统设计实现更准确、自然且感知一致的图像呈现。
+        专注于颜色科学、影像 ISP 与 HDR 图像处理，关注如何通过算法与系统设计实现更准确、自然且感知一致的图像呈现。
       </p>
-      <div class="actions">
-        <a class="button primary" href="#projects">查看项目</a>
-        <a class="button secondary" href="#experiments">实验入口</a>
+      <div class="actions" aria-label="页面快捷入口">
+        <a class="button primary" href="#projects">查看项目体系</a>
+        <a class="button secondary" href="#demos">打开 Demo 展示</a>
       </div>
     </section>
   </header>
 
   <main>
-    <section id="projects" class="section">
+    <section id="overview" class="section overview">
       <div class="section-heading">
-        <p class="eyebrow">Projects</p>
-        <h2>项目展示</h2>
-        <p>用卡片展示项目目标、技术栈和相关链接。</p>
+        <p class="eyebrow">Overview</p>
+        <h2>图像ISP流程</h2>
+        <p>
+          从 RAW 图像出发，经过颜色管理、亮度与色域映射，最终适配到不同显示目标。
+        </p>
+      </div>
+
+      <div class="pipeline" aria-label="HDR 显示流程">
+        <article>
+          <span>01</span>
+          <h3>Source</h3>
+          <p>线性 HDR、原始 RAW 数据、场景亮度、色彩空间与元数据。</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h3>Color Management</h3>
+          <p>白点、ICC、色适应与颜色空间转换。</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h3>Mapping</h3>
+          <p>色调映射、色域映射。</p>
+        </article>
+        <article>
+          <span>04</span>
+          <h3>Display Target</h3>
+          <p>HDR 显示、SDR 显示。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <div class="section-heading split">
+        <div>
+          <p class="eyebrow">Projects</p>
+          <h2>项目展示</h2>
+        </div>
+        <p>
+          每个项目对应一个研究模块，包含问题背景、处理流程、算法方法、实验结果以及后续可补充的代码、报告或数据材料。
+        </p>
       </div>
       <div id="project-list" class="card-grid"></div>
     </section>
 
     <section id="demos" class="section muted">
-      <div class="section-heading">
-        <p class="eyebrow">Demos</p>
-        <h2>Demo 展示</h2>
-        <p>适合放可运行页面、视频、交互式原型或下载链接。</p>
+      <div class="section-heading split">
+        <div>
+          <p class="eyebrow">Demos</p>
+          <h2>Demo 展示</h2>
+        </div>
+        <p>
+          Demo 用于展示可观察、可比较或可交互的结果，包括图像对比、显示适配、参数切换和轻量工具页面。
+        </p>
       </div>
       <div id="demo-list" class="card-grid compact"></div>
     </section>
 
-    <section id="experiments" class="section">
+    <section id="roadmap" class="section roadmap">
       <div class="section-heading">
-        <p class="eyebrow">Experiments</p>
-        <h2>实验链接</h2>
-        <p>可以把实验分成正式实验、预实验、问卷、内部测试等类型。</p>
+        <p class="eyebrow">Roadmap</p>
+        <h2>后续内容规划</h2>
+        <p>
+          后续将逐步补充算法说明、实验记录、结果可视化和在线演示，让每个方向都能从概念、方法走到可验证结果。
+        </p>
       </div>
-      <div id="experiment-list" class="link-list"></div>
+      <div id="roadmap-list" class="roadmap-list"></div>
     </section>
 
     <section id="contact" class="section contact">
       <div>
         <p class="eyebrow">Contact</p>
-        <h2>保持联系</h2>
-        <p>如果你对我的项目感兴趣，欢迎通过邮件或 GitHub 联系我。</p>
+        <h2>联系与协作</h2>
+        <p>
+          欢迎通过邮件或 GitHub 联系我。
+        </p>
       </div>
       <div class="contact-links">
         <a href="mailto:johnny_shi@zju.edu.cn">johnny_shi@zju.edu.cn</a>
@@ -74,7 +120,7 @@
   </main>
 
   <footer class="footer">
-    <p>© <span id="year"></span> Shayne Shi. Built as a lightweight personal website.</p>
+    <p>© <span id="year"></span> Shayne Shi. Built as a lightweight research portfolio.</p>
   </footer>
 
   <script src="script.js"></script>

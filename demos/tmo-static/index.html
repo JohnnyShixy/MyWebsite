@@ -3,61 +3,110 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Static TMO Demo</title>
+  <meta name="description" content="Interactive HDR to SDR tone mapping comparison demo.">
+  <title>HDR to SDR TMO Compare</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="page">
-    <header class="hero">
-      <a class="back-link" href="../../index.html">Back to portfolio</a>
-      <p class="eyebrow">Static Tone Mapping Demo</p>
-      <h1>Compare tone mapping results across HDR scenes.</h1>
-      <p>
-        This GitHub Pages demo switches between precomputed image results.
-        Replace the placeholder paths in <code>script.js</code> with your real
-        PNG/JPG outputs after generating each TMO result locally.
-      </p>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="back-link" href="../../index.html">Back</a>
+      <div>
+        <p class="eyebrow">HDR to SDR / Tone Mapping</p>
+        <h1>TMO Comparison Workspace</h1>
+      </div>
     </header>
 
-    <section class="controls" aria-label="TMO demo controls">
-      <label>
-        Scene
-        <select id="scene-select"></select>
-      </label>
-      <label>
-        Algorithm
-        <select id="algorithm-select"></select>
-      </label>
-    </section>
+    <section class="workspace" aria-label="TMO comparison workspace">
+      <aside class="sidebar" aria-label="Control panel">
+        <section class="control-section">
+          <div class="section-title">
+            <span>01</span>
+            <h2>Scene</h2>
+          </div>
+          <div id="scene-list" class="scene-list"></div>
+        </section>
 
-    <section class="viewer" aria-live="polite">
-      <article class="image-card">
-        <div>
-          <p class="eyebrow">Reference Preview</p>
-          <h2 id="reference-title">Scene preview</h2>
+        <section class="control-section">
+          <div class="section-title">
+            <span>02</span>
+            <h2>View</h2>
+          </div>
+          <div class="segmented" role="group" aria-label="View mode">
+            <button class="mode-button active" type="button" data-mode="single">Single</button>
+            <button class="mode-button" type="button" data-mode="compare">Compare</button>
+          </div>
+        </section>
+
+        <section class="control-section">
+          <div class="section-title">
+            <span>03</span>
+            <h2>Algorithm</h2>
+          </div>
+          <label class="field">
+            Primary
+            <select id="algorithm-a"></select>
+          </label>
+          <label id="algorithm-b-field" class="field hidden">
+            Secondary
+            <select id="algorithm-b"></select>
+          </label>
+        </section>
+
+        <section class="control-section">
+          <div class="section-title">
+            <span>04</span>
+            <h2>Inspect</h2>
+          </div>
+          <button id="zoom-reset" class="reset-button" type="button">Reset View</button>
+          <label class="check-field">
+            <input id="sync-zoom" type="checkbox" checked>
+            Sync zoom
+          </label>
+        </section>
+      </aside>
+
+      <section class="viewer-area" aria-live="polite">
+        <div class="viewer-toolbar">
+          <div>
+            <p class="eyebrow">Current Scene</p>
+            <h2 id="current-scene">Scene</h2>
+            <div id="viewer-status" class="viewer-status"></div>
+          </div>
+          <p id="scene-note" class="scene-note"></p>
         </div>
-        <img id="reference-image" alt="Reference preview">
-      </article>
 
-      <article class="image-card featured">
-        <div>
-          <p class="eyebrow">Tone Mapped Result</p>
-          <h2 id="result-title">TMO result</h2>
-        </div>
-        <img id="result-image" alt="Selected tone mapping result">
-      </article>
-    </section>
+        <div id="image-stage" class="image-stage single-mode"></div>
+      </section>
 
-    <section class="notes">
-      <h2>How to replace placeholders</h2>
-      <p>
-        Put your generated results under <code>demos/tmo-static/assets/</code>,
-        then update the paths in <code>demos/tmo-static/script.js</code>.
-      </p>
-      <pre><code>assets/memorial/preview.png
-assets/memorial/reinhard.png
-assets/memorial/drago.png
-assets/memorial/fattal.png</code></pre>
+      <aside class="analysis-panel" aria-label="EXR visualization">
+        <section class="control-section">
+          <div class="section-title">
+            <span>EXR</span>
+            <h2>Source View</h2>
+          </div>
+          <div class="segmented compact" role="group" aria-label="EXR view mode">
+            <button class="exr-button active" type="button" data-exr="preview">Preview</button>
+            <button class="exr-button" type="button" data-exr="log">Log</button>
+            <button class="exr-button" type="button" data-exr="false-color">False</button>
+          </div>
+        </section>
+
+        <figure class="exr-preview">
+          <img id="exr-image" alt="EXR visualization preview">
+          <figcaption id="exr-caption">SDR preview of the HDR source.</figcaption>
+        </figure>
+
+        <section class="histogram-section">
+          <div class="section-title">
+            <span>Hist</span>
+            <h2>Luminance Distribution</h2>
+          </div>
+          <div id="histogram" class="histogram" aria-label="Luminance histogram"></div>
+          <div id="histogram-axis" class="range-labels" aria-label="log luminance axis"></div>
+          <p class="axis-caption">x: log10(Y), y: normalized count</p>
+        </section>
+      </aside>
     </section>
   </main>
 
