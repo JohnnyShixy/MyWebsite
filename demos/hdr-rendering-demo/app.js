@@ -3,13 +3,15 @@ const state = {
   scene: null,
   mode: "source",
   sourceViewMode: "preview",
-  mediaMode: "both",
+  mediaMode: "video",
+  syncPlayback: true,
   assetVersion: "ui-structure-1"
 };
 
 const els = {
   targetSummary: document.querySelector("#targetSummary"),
   hdrStatus: document.querySelector("#hdrStatus"),
+  hdrHint: document.querySelector("#hdrHint"),
   sceneSelect: document.querySelector("#sceneSelect"),
   leftControl: document.querySelector("#leftControl"),
   leftControlLabel: document.querySelector("#leftControlLabel"),
@@ -19,6 +21,8 @@ const els = {
   rightSelect: document.querySelector("#rightSelect"),
   mediaControl: document.querySelector("#mediaControl"),
   mediaSelect: document.querySelector("#mediaSelect"),
+  syncControl: document.querySelector("#syncControl"),
+  syncToggle: document.querySelector("#syncToggle"),
   leftVideo: document.querySelector("#leftVideo"),
   rightVideo: document.querySelector("#rightVideo"),
   leftTitle: document.querySelector("#leftTitle"),
@@ -40,13 +44,18 @@ const els = {
   sourceViewTitle: document.querySelector("#sourceViewTitle"),
   sourceViewImage: document.querySelector("#sourceViewImage"),
   sourceViewMissing: document.querySelector("#sourceViewMissing"),
+  sourceSceneId: document.querySelector("#sourceSceneId"),
+  sourceStats: document.querySelector("#sourceStats"),
   histogramCanvas: document.querySelector("#histogramCanvas"),
   histogramMeta: document.querySelector("#histogramMeta"),
+  groupSummary: document.querySelector("#groupSummary"),
+  groupEyebrow: document.querySelector("#groupEyebrow"),
+  groupTitle: document.querySelector("#groupTitle"),
+  groupDescription: document.querySelector("#groupDescription"),
   distortionGrid: document.querySelector("#distortionGrid"),
   modeTabs: [...document.querySelectorAll(".modeTab")],
   comparisonSections: [...document.querySelectorAll(".comparison")],
   playPause: document.querySelector("#playPause"),
-  sync: document.querySelector("#sync"),
   reset: document.querySelector("#reset")
 };
 
@@ -56,13 +65,15 @@ function setHdrStatus() {
   const p3 = window.matchMedia("(color-gamut: p3)").matches;
 
   if (videoHdr || displayHdr) {
-    els.hdrStatus.textContent = p3 ? "HDR/P3 display path detected" : "HDR display path detected";
+    els.hdrStatus.textContent = p3 ? "HDR + P3 path detected" : "HDR path detected";
     els.hdrStatus.className = "status ok";
+    els.hdrHint.textContent = "The browser reports an HDR-capable display path for video playback.";
     return;
   }
 
-  els.hdrStatus.textContent = "HDR path not detected";
+  els.hdrStatus.textContent = p3 ? "P3 display, HDR not detected" : "SDR display path";
   els.hdrStatus.className = "status warn";
+  els.hdrHint.textContent = "HDR assets may be tone-mapped by the browser or operating system on this display.";
 }
 
 function option(label, value) {
@@ -113,10 +124,10 @@ function setControlLabels() {
   els.rightControlLabel.textContent = state.mode === "rendering" ? "Right Rendering" : "Right TMO";
   els.rightControl.hidden = grouped || state.mode === "source";
   els.mediaControl.hidden = state.mode === "source";
+  els.syncControl.hidden = state.mode === "source";
   els.playPause.hidden = state.mode === "source";
-  els.sync.hidden = state.mode === "source";
   els.reset.hidden = state.mode === "source";
-  els.playPause.textContent = grouped ? "Play All" : "Play Both";
+  els.playPause.textContent = "Play";
 }
 
 function variantsForMode() {
@@ -260,6 +271,7 @@ function withVersion(url) {
 
 function updateVideos() {
   if (state.mode === "source") {
+    els.groupSummary.hidden = true;
     updateSourceView();
     return;
   }
@@ -272,6 +284,7 @@ function updateVideos() {
 
   els.distortionGrid.hidden = true;
   els.distortionGrid.replaceChildren();
+  els.groupSummary.hidden = true;
   const variants = variantsForMode();
   const hasVariants = variants.length > 0;
   els.emptyState.textContent = hasVariants ? "" : emptyTextForMode();
@@ -302,6 +315,7 @@ function updateGroupedGrid() {
   });
   els.distortionGrid.hidden = !hasVariants;
   els.distortionGrid.replaceChildren(...variants.map(createDistortionCard));
+  updateGroupSummary(variants);
   applyMediaMode();
 }
 
@@ -327,13 +341,48 @@ function updateSourceView() {
     falseColor: "False Color"
   };
   els.sourceViewTitle.textContent = labelByMode[state.sourceViewMode] ?? "Preview";
+  els.sourceSceneId.textContent = state.scene.id;
   els.sourceViewMissing.textContent = "";
   els.sourceViewImage.src = withVersion(sourceView[state.sourceViewMode]);
   els.sourceViewImage.addEventListener("error", () => {
     els.sourceViewImage.removeAttribute("src");
     els.sourceViewMissing.textContent = `Source image not found: ${sourceView[state.sourceViewMode]}`;
   }, { once: true });
+  renderSourceStats(sourceView.histogram);
   drawHistogram(sourceView.histogram);
+}
+
+function renderSourceStats(histogram) {
+  const stats = histogram?.stats;
+  const rows = [
+    ["Scene", state.scene.name],
+    ["Source", state.scene.source?.split("/").pop() ?? "EXR"],
+    ["Peak raw", formatNumber(stats?.rawMax)],
+    ["P99 raw", formatNumber(stats?.rawP99)],
+    ["Median raw", formatNumber(stats?.rawP50)],
+    ["Log range", stats ? `${stats.log2P001.toFixed(2)} to ${stats.log2P999.toFixed(2)}` : "n/a"]
+  ];
+
+  els.sourceStats.replaceChildren(...rows.flatMap(([label, value]) => {
+    const dt = document.createElement("dt");
+    dt.textContent = label;
+    const dd = document.createElement("dd");
+    dd.textContent = value;
+    return [dt, dd];
+  }));
+}
+
+function formatNumber(value) {
+  if (!Number.isFinite(value)) {
+    return "n/a";
+  }
+  if (Math.abs(value) >= 10) {
+    return value.toFixed(2);
+  }
+  if (Math.abs(value) >= 1) {
+    return value.toFixed(3);
+  }
+  return value.toPrecision(3);
 }
 
 function drawHistogram(histogram) {
@@ -393,6 +442,9 @@ function drawHistogram(histogram) {
 function createDistortionCard(variant) {
   const card = document.createElement("article");
   card.className = "panel distortionCard";
+  if (isReferenceVariant(variant)) {
+    card.classList.add("referenceCard");
+  }
 
   const header = document.createElement("div");
   header.className = "panelHeader";
@@ -444,6 +496,25 @@ function createDistortionCard(variant) {
   return card;
 }
 
+function isReferenceVariant(variant) {
+  const control = controlForVariant(variant);
+  return control?.type === "reference" || control?.level === "reference";
+}
+
+function updateGroupSummary(variants) {
+  if (!isGroupedMode() || variants.length === 0) {
+    els.groupSummary.hidden = true;
+    return;
+  }
+
+  const control = controlForVariant(variants[0]);
+  const reference = variants.find(isReferenceVariant);
+  els.groupEyebrow.textContent = state.mode === "rendering" ? "Rendering Control" : "Distortion Type";
+  els.groupTitle.textContent = control?.group_label ?? groupedModeLabel();
+  els.groupDescription.textContent = reference?.rendering ?? variants[0].rendering ?? describe(variants[0]);
+  els.groupSummary.hidden = false;
+}
+
 function applyMediaMode() {
   document.body.dataset.media = state.mediaMode;
   if (state.mode === "source") {
@@ -481,6 +552,9 @@ function setMode(mode) {
 }
 
 function syncVideos() {
+  if (!state.syncPlayback) {
+    return;
+  }
   const videos = activeVideos();
   if (videos.length < 2) {
     return;
@@ -498,8 +572,10 @@ function togglePlay() {
   }
   if (videos[0].paused) {
     videos.forEach((video) => void video.play());
+    els.playPause.textContent = "Pause";
   } else {
     videos.forEach((video) => video.pause());
+    els.playPause.textContent = "Play";
   }
 }
 
@@ -516,6 +592,7 @@ async function init() {
   state.manifest = await response.json();
   const target = state.manifest.target;
   els.targetSummary.textContent = `${target.transfer} / ${target.contentGamut} / ${target.peakNits} nit / ${target.codec}`;
+  els.mediaSelect.value = state.mediaMode;
   populateScenes();
 
   els.sceneSelect.addEventListener("change", () => {
@@ -538,18 +615,35 @@ async function init() {
     state.mediaMode = els.mediaSelect.value;
     updateVideos();
   });
+  els.syncToggle.addEventListener("click", () => {
+    state.syncPlayback = !state.syncPlayback;
+    els.syncToggle.classList.toggle("active", state.syncPlayback);
+    els.syncToggle.textContent = state.syncPlayback ? "On" : "Off";
+    els.syncToggle.setAttribute("aria-pressed", String(state.syncPlayback));
+    if (state.syncPlayback) {
+      syncVideos();
+    }
+  });
   els.playPause.addEventListener("click", togglePlay);
-  els.sync.addEventListener("click", syncVideos);
   els.reset.addEventListener("click", () => {
     activeVideos().forEach((video) => {
       video.currentTime = 0;
     });
+    els.playPause.textContent = "Play";
   });
   els.leftVideo.addEventListener("play", () => {
     syncVideos();
-    void els.rightVideo.play();
+    if (state.syncPlayback) {
+      void els.rightVideo.play();
+    }
+    els.playPause.textContent = "Pause";
   });
-  els.leftVideo.addEventListener("pause", () => els.rightVideo.pause());
+  els.leftVideo.addEventListener("pause", () => {
+    if (state.syncPlayback) {
+      els.rightVideo.pause();
+    }
+    els.playPause.textContent = "Play";
+  });
   els.leftVideo.addEventListener("seeked", syncVideos);
 }
 

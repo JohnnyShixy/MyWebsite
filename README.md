@@ -1,38 +1,86 @@
-# 个人项目展示网站
+# Shayne Shi | HDR & Color Imaging
 
-这是一个轻量级静态网站模板，用来展示个人项目、在线 Demo 和实验链接。
+这是一个轻量级静态研究作品集网站，用来展示颜色科学、影像 ISP、HDR 图像处理相关的项目、在线 Demo 和后续内容规划。
 
-## 文件结构
+## 目录结构
 
-- `index.html`: 页面结构和栏目入口
-- `styles.css`: 页面样式和响应式布局
-- `script.js`: 项目、Demo、实验链接数据
+```text
+.
+├── index.html
+├── styles.css
+├── script.js
+├── README.md
+└── demos/
+    ├── hdr-rendering-demo/
+    └── hdr-to-sdr-tmo-compare/
+```
+
+## 主要文件
+
+- `index.html`: 主页结构、导航、流程概览、项目区、Demo 区和联系信息。
+- `styles.css`: 主页样式、卡片布局、响应式排版。
+- `script.js`: 主页中的项目、Demo 和 Roadmap 数据。
+- `demos/`: 独立 Demo 页面，每个子目录都是一个可单独打开的静态页面。
+
+## Demo 目录命名约定
+
+Demo 目录统一使用小写英文和连字符，名称直接描述功能：
+
+- `hdr-rendering-demo`: HDR 显示及渲染 Demo。
+- `hdr-to-sdr-tmo-compare`: HDR 到 SDR 的 TMO 对比 Demo。
+
+后续新增 Demo 建议继续使用同一风格，例如：
+
+- `gamut-mapping-visualizer`
+- `cat16-adaptation-tool`
 
 ## 如何修改内容
 
-1. 在 `index.html` 中把 `Your Name`、邮箱和 GitHub 链接替换成你的信息。
-2. 在 `script.js` 中修改 `projects`、`demos`、`experiments` 数组。
-3. 如果你的实验是 Flask、本地服务或问卷链接，把对应 `url` 改成真实地址。
+1. 修改主页标题、简介、导航或联系信息：编辑 `index.html`。
+2. 修改项目卡片、Demo 卡片或后续规划：编辑 `script.js`。
+3. 修改视觉样式、间距、字体大小或移动端布局：编辑 `styles.css`。
+4. 修改某个具体 Demo：进入 `demos/<demo-name>/`，编辑该 Demo 自己的 `index.html`、CSS 和 JS。
 
 ## 如何预览
 
-直接在浏览器打开 `index.html` 即可。也可以用 VS Code 的 Live Server 插件或任意静态服务器预览。
+这个项目是纯静态网站，可以直接在浏览器打开 `index.html`。
 
-## 如何部署
+也可以使用 VS Code Live Server 或任意静态服务器预览，路径示例：
 
-推荐三种简单方式：
+- 主页：`index.html`
+- HDR 到 SDR 的 TMO 对比：`demos/hdr-to-sdr-tmo-compare/index.html`
+- HDR 显示及渲染：`demos/hdr-rendering-demo/index.html`
 
-- GitHub Pages: 适合个人主页和公开项目展示。
-- Netlify: 适合拖拽部署和自动部署。
-- Vercel: 适合后续升级为 React / Next.js 项目。
+## HDR 到 SDR 的 TMO 对比 Demo
 
-## 静态 TMO Demo
+该 Demo 位于 `demos/hdr-to-sdr-tmo-compare/`。
 
-静态 TMO Demo 位于 `demos/tmo-static/`。它适合部署到 GitHub Pages：
+图片素材放在：
 
-- 先在本地生成每张 HDR 图像对应的 TMO 结果图，例如 `preview.png`、`reinhard.png`、`drago.png`。
-- 将结果图放到 `demos/tmo-static/assets/<scene-name>/`。
-- 在 `demos/tmo-static/script.js` 中更新场景名和图片路径。
-- 主页的 Demo 链接已经指向 `demos/tmo-static/`。
+```text
+demos/hdr-to-sdr-tmo-compare/assets/<scene-name>/
+```
 
-动态后端版本已单独移到 `D:\CEL-Johnny\research\TMO-Demo-Backend\tmo-demo`，以后可以作为独立仓库部署到 Render。
+每个场景目录中可放置不同算法的输出图，例如：
+
+```text
+preview.png
+reinhard_global.png
+drago03.png
+mantiuk08_cli.png
+fattal_cli.png
+```
+
+场景列表、算法列表和图片路径在：
+
+```text
+demos/hdr-to-sdr-tmo-compare/script.js
+```
+
+## 部署建议
+
+- GitHub Pages: 适合这个纯静态网站。
+- Netlify: 适合拖拽部署或自动部署。
+- Vercel: 后续如果升级为 React / Next.js，可以再考虑。
+
+如果视频或 HDR 素材继续增多，建议只把轻量预览图放进仓库，大体积视频放到 Release、对象存储或 CDN。

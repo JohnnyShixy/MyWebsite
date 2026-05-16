@@ -12,7 +12,10 @@
         <h1>HDR IQA Rendering Demo</h1>
         <p id="targetSummary">PQ / P3-D65 / 1000 nit</p>
       </div>
-      <div class="status" id="hdrStatus">Checking HDR support...</div>
+      <div class="statusBlock">
+        <div class="status" id="hdrStatus">Checking HDR support...</div>
+        <p id="hdrHint">Display capability is detected by the browser.</p>
+      </div>
     </header>
 
     <main>
@@ -40,15 +43,18 @@
           <label id="mediaControl">
             <span>Media</span>
             <select id="mediaSelect">
-              <option value="both">Video + Image</option>
               <option value="video">Video</option>
               <option value="image">Image</option>
+              <option value="both">Video + Still</option>
             </select>
           </label>
+          <label id="syncControl" class="toggleControl">
+            <span>Sync</span>
+            <button id="syncToggle" class="toggle active" type="button" aria-pressed="true">On</button>
+          </label>
           <div class="buttonRow">
-            <button id="playPause" type="button">Play Both</button>
-            <button id="sync" type="button">Sync Time</button>
-            <button id="reset" type="button">Reset Time</button>
+            <button id="playPause" type="button">Play</button>
+            <button id="reset" type="button">Reset</button>
           </div>
         </section>
       </section>
@@ -64,13 +70,30 @@
           <img id="sourceViewImage" alt="Source view image">
           <div class="missing" id="sourceViewMissing"></div>
         </article>
-        <article class="panel">
-          <div class="panelHeader">
-            <h2>Raw EXR Histogram</h2>
-            <span id="histogramMeta">log2(mean RGB)</span>
-          </div>
-          <canvas id="histogramCanvas" width="900" height="360" aria-label="Raw EXR histogram"></canvas>
-        </article>
+        <aside class="analysisRail">
+          <article class="panel sourceDetails">
+            <div class="panelHeader">
+              <h2>Scene Analysis</h2>
+              <span id="sourceSceneId">Source EXR</span>
+            </div>
+            <dl id="sourceStats"></dl>
+          </article>
+          <article class="panel">
+            <div class="panelHeader">
+              <h2>Raw EXR Histogram</h2>
+              <span id="histogramMeta">log2(mean RGB)</span>
+            </div>
+            <canvas id="histogramCanvas" width="900" height="360" aria-label="Raw EXR histogram"></canvas>
+          </article>
+        </aside>
+      </section>
+
+      <section class="groupSummary" id="groupSummary" hidden>
+        <div>
+          <p id="groupEyebrow">Rendering Control</p>
+          <h2 id="groupTitle">Reference</h2>
+        </div>
+        <p id="groupDescription"></p>
       </section>
 
       <section class="distortionGrid" id="distortionGrid" aria-label="Distortion level comparison" hidden></section>

@@ -18,7 +18,7 @@ const projects = [
     tags: ["HDR", "Tone Mapping", "Perception"],
     links: [
       { label: "算法记录", url: "#" },
-      { label: "打开 Demo", url: "demos/tmo-static/" },
+      { label: "打开 Demo", url: "demos/hdr-to-sdr-tmo-compare/" },
     ],
   },
   {
@@ -74,7 +74,7 @@ const demos = [
     description:
       "展示 HDR 内容在目标显示条件下的渲染效果，关注亮度层次、高光保留、显示峰值与视觉一致性。",
     tags: ["HDR Display", "Rendering", "Preview"],
-    links: [{ label: "打开 Demo", url: "demos/hdr-iqa-rendering-demo/" }],
+    links: [{ label: "打开 Demo", url: "demos/hdr-rendering-demo/" }],
   },
   {
     title: "HDR到SDR的TMO对比",
@@ -82,7 +82,7 @@ const demos = [
     description:
       "比较同一 HDR 源图经过不同 tone mapping 方法转换到 SDR 后的结果，支持单算法查看、双算法并排、同步放大和 EXR 数据视图占位。",
     tags: ["HDR to SDR", "TMO", "Interactive Compare"],
-    links: [{ label: "打开 Demo", url: "demos/tmo-static/" }],
+    links: [{ label: "打开 Demo", url: "demos/hdr-to-sdr-tmo-compare/" }],
   },
   {
     title: "色域映射可视化",

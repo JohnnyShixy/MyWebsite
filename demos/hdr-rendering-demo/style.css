@@ -10,10 +10,15 @@
   --accent: #75b7ff;
   --accent-2: #65d6b1;
   --warn: #ffd166;
+  --danger: #ff8f70;
 }
 
 * {
   box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
 }
 
 body {
@@ -28,9 +33,9 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding: 14px 24px;
+  padding: 12px 24px;
   border-bottom: 1px solid var(--line);
-  background: #15171a;
+  background: #111416;
 }
 
 h1,
@@ -56,12 +61,13 @@ label {
 }
 
 .status {
-  min-width: 180px;
-  padding: 8px 10px;
+  min-width: 210px;
+  padding: 7px 10px;
   border: 1px solid var(--line);
   border-radius: 6px;
   color: var(--muted);
   text-align: center;
+  font-size: 13px;
 }
 
 .status.ok {
@@ -70,6 +76,19 @@ label {
 
 .status.warn {
   color: var(--warn);
+}
+
+.statusBlock {
+  display: grid;
+  justify-items: end;
+  gap: 5px;
+}
+
+.statusBlock p {
+  max-width: 430px;
+  font-size: 12px;
+  line-height: 1.35;
+  text-align: right;
 }
 
 main {
@@ -81,8 +100,9 @@ main {
   top: 0;
   z-index: 2;
   display: grid;
-  gap: 12px;
-  padding: 14px 0 16px;
+  grid-template-columns: minmax(360px, 0.8fr) minmax(0, 1.2fr);
+  gap: 14px;
+  padding: 12px 0 14px;
   background: linear-gradient(180deg, var(--bg) 0%, rgba(14, 16, 17, 0.96) 100%);
   border-bottom: 1px solid rgba(54, 61, 66, 0.65);
   backdrop-filter: blur(12px);
@@ -92,7 +112,6 @@ main {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
-  max-width: 720px;
 }
 
 .modeTab {
@@ -107,8 +126,8 @@ main {
 
 .controls {
   display: grid;
-  grid-template-columns: minmax(220px, 1.15fr) minmax(180px, 1fr) minmax(180px, 1fr) minmax(150px, 0.75fr) auto;
-  gap: 12px;
+  grid-template-columns: minmax(190px, 1.05fr) minmax(170px, 1fr) minmax(170px, 1fr) minmax(130px, 0.7fr) 70px auto;
+  gap: 10px;
   align-items: end;
 }
 
@@ -135,6 +154,16 @@ select {
 button {
   padding: 0 12px;
   cursor: pointer;
+}
+
+.toggle {
+  width: 100%;
+}
+
+.toggle.active {
+  border-color: rgba(101, 214, 177, 0.85);
+  color: var(--accent-2);
+  background: rgba(101, 214, 177, 0.09);
 }
 
 button:hover,
@@ -182,7 +211,7 @@ select:disabled {
 .sourceView {
   margin-top: 18px;
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+  grid-template-columns: minmax(0, 1.55fr) minmax(320px, 0.45fr);
   gap: 16px;
 }
 
@@ -190,10 +219,16 @@ select:disabled {
   display: none;
 }
 
+.analysisRail {
+  display: grid;
+  align-content: start;
+  gap: 16px;
+}
+
 .distortionGrid {
   margin-top: 18px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 14px;
 }
 
@@ -206,7 +241,7 @@ select:disabled {
   border: 1px solid var(--line);
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  box-shadow: none;
 }
 
 .panelHeader {
@@ -229,8 +264,75 @@ select:disabled {
   white-space: nowrap;
 }
 
+.sourceDetails dl {
+  display: grid;
+  grid-template-columns: minmax(86px, 0.72fr) minmax(0, 1.28fr);
+  gap: 1px;
+  margin: 0;
+  background: var(--line);
+}
+
+.sourceDetails dt,
+.sourceDetails dd {
+  min-width: 0;
+  margin: 0;
+  padding: 10px 12px;
+  background: var(--surface);
+  font-size: 13px;
+}
+
+.sourceDetails dt {
+  color: var(--muted);
+}
+
+.sourceDetails dd {
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+.groupSummary {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-3);
+}
+
+.groupSummary[hidden] {
+  display: none;
+}
+
+.groupSummary p {
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.groupSummary > p {
+  max-width: 780px;
+}
+
+#groupEyebrow {
+  margin-bottom: 3px;
+  color: var(--accent-2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+}
+
 .distortionCard .panelHeader h2 {
   font-size: 14px;
+}
+
+.referenceCard {
+  border-color: rgba(101, 214, 177, 0.72);
+}
+
+.referenceCard .panelHeader {
+  background: rgba(101, 214, 177, 0.12);
 }
 
 video {
@@ -251,7 +353,7 @@ img {
 canvas {
   display: block;
   width: 100%;
-  aspect-ratio: 5 / 2;
+  aspect-ratio: 16 / 9;
   background: #050607;
 }
 
@@ -280,6 +382,7 @@ body[data-media="image"] .comparison {
   .topbar,
   .modeTabs,
   .controls,
+  .workspaceBar,
   .sourceView,
   .comparison,
   .distortionGrid {
@@ -304,5 +407,17 @@ body[data-media="image"] .comparison {
 
   .buttonRow {
     flex-wrap: wrap;
+  }
+
+  .statusBlock {
+    justify-items: start;
+  }
+
+  .statusBlock p {
+    text-align: left;
+  }
+
+  .groupSummary {
+    display: grid;
   }
 }
